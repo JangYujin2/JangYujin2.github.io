@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html ng-app="way">
+    <head>
+        <meta charset="UTF-8" />
+        <title>two way data binding</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
+        <style>
+            body {
+                background: #eee;
+                font-family: "Noto Sans KR", sans-serif;
+            }
+            .wrap {
+                width: 800px;
+                height: 360px;
+                padding: 20px;
+                margin: 0 auto;
+            }
+            .wrap > div {
+                width: 760px;
+                float: left;
+                margin: 20px 0;
+                background: #fff;
+                box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .title {
+                text-align: center;
+                color: lightcoral;
+            }
+            table {
+                width: 100%;
+                text-align: center;
+                font-size: 18px;
+                padding: 10px;
+                float: left;
+                overflow: hidden;
+                box-sizing: border-box;
+                background: #fff;
+                box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.1);
+                color: #383838;
+            }
+            table th {
+                background: lightcoral;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                padding: 5px 0;
+                color: #fff;
+                font-weight: 600;
+            }
+            table td {
+                padding: 10px 0;
+            }
+            table td:first-child {
+                background: #ffcdcd;
+            }
+            .itemName {
+                color: lightcoral;
+            }
+            .itemPrice {
+                background: #ffe1e1;
+            }
+            .itemCount {
+                background: #fff2f2;
+            }
+
+            .itemCount input {
+                border: 0;
+                text-align: center;
+                font-weight: 600;
+                font-size: 18px;
+                background: transparent;
+                color: #383838;
+            }
+            .itemCount input:focus {
+                outline: none;
+            }
+            .buyBtn {
+                width: 200px;
+                height: 50px;
+                background: #383838;
+                color: #fff;
+                font-size: 18px;
+                border: 0;
+                float: right;
+                cursor: pointer;
+                box-sizing: border-box;
+                font-weight: 600;
+                transition: 0.3s ease;
+            }
+            .buyBtn:hover {
+                background: lightcoral;
+            }
+            .totalPrice {
+                width: 200px;
+                float: left;
+                font-size: 22px;
+                color: lightcoral;
+                margin: 0;
+                font-weight: 550;
+                line-height: 50px;
+            }
+            .totalPrice span {
+                color: #383838;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+        <script>
+            var app = angular.module("way", []);
+            app.controller("mainCtrl", function ($scope) {
+                var menuList = [
+                    { itemId: 1, itemName: "아메리카노", itemPrice: 2500, itemCount: 0 },
+                    { itemId: 2, itemName: "소이 라떼", itemPrice: 4000, itemCount: 0 },
+                    { itemId: 3, itemName: "바닐라 라떼", itemPrice: 4500, itemCount: 0 },
+                    { itemId: 4, itemName: "녹차라떼", itemPrice: 4500, itemCount: 0 },
+                    { itemId: 5, itemName: "초코라떼", itemPrice: 4500, itemCount: 0 },
+                    { itemId: 6, itemName: "카라멜 마끼아또", itemPrice: 4500, itemCount: 0 },
+                    { itemId: 7, itemName: "베이글", itemPrice: 3000, itemCount: 0 }
+                ];
+
+                $scope.menuList = menuList;
+                $scope.totalPrice = 0;
+
+                $scope.buy = function () {
+                    $scope.totalPrice = 0;
+
+                    angular.forEach($scope.menuList, function (menu, idx) {
+                        $scope.totalPrice = $scope.totalPrice + menu.itemPrice * Number(menu.itemCount);
+                    });
+                };
+            });
+        </script>
+    </head>
+    <body ng-controller="mainCtrl">
+        <div class="wrap">
+            <h1 class="title">MENU</h1>
+            <table>
+                <colgroup>
+                    <col width="50%" />
+                    <col width="30%" />
+                    <col width="20%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>메뉴</th>
+                        <th>가격</th>
+                        <th>갯수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="menu in menuList">
+                        <td class="itemName">{{menu.itemName}}</td>
+                        <td class="itemPrice">{{menu.itemPrice}}</td>
+                        <td class="itemCount"><input type="text" ng-model="menu.itemCount" maxlength="3" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <button class="buyBtn" ng-click="buy()">구매</button>
+                <p class="totalPrice"><span>총가격:</span> {{totalPrice}}</p>
+            </div>
+        </div>
+    </body>
+</html>
