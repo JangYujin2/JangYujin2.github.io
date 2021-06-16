@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+    <head>
+        <meta charset="utf-8">
+        <title>20201795-homework7</title>
+        <style>
+            body,
+            p {
+                margin: 0;
+            }
+            div.container {
+                margin: 0 auto;
+                text-align: center;
+            }
+            div > p {
+                font-size: 24px;
+                font-weight: bold;
+            }
+            canvas {
+                border: 2px solid black;
+                margin: 10px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <p>문제 1번</p>
+            <canvas class="solution1" width="400" height="400"></canvas>
+            <p>문제 2번</p>
+            <canvas class="solution2" width="400" height="400"></canvas>
+            <p>문제 3번</p>
+            <canvas class="solution3" width="400" height="400"></canvas>
+            <p>문제 4번</p>
+            <canvas class="solution4" width="400" height="400"></canvas>
+            <p>문제 5번</p>
+            <canvas class="solution5" width="400" height="400"></canvas>
+            <p>문제 6번</p>
+            <canvas class="solution6" width="400" height="400"></canvas>
+            <p>문제 7번</p>
+            <canvas class="solution7" width="400" height="400"></canvas>
+        </div>
+
+        <script>
+            const solution1 = document.querySelector(".solution1");
+            const solution2 = document.querySelector(".solution2");
+            const solution3 = document.querySelector(".solution3");
+            const solution4 = document.querySelector(".solution4");
+            const solution5 = document.querySelector(".solution5");
+            const solution6 = document.querySelector(".solution6");
+            const solution7 = document.querySelector(".solution7");
+
+            const context1 = solution1.getContext('2d');
+            const context2 = solution2.getContext('2d');
+            const context3 = solution3.getContext('2d');
+            const context4 = solution4.getContext('2d');
+            const context5 = solution5.getContext('2d');
+            const context6 = solution6.getContext('2d');
+            const context7 = solution7.getContext('2d');
+
+            /**
+             * 문제 1번
+             */
+            for (i = 1; i < solution1.clientWidth / 10; ++i) {
+                context1.strokeStyle = "#0000ff";
+                context1.lineWidth = "2";
+                context1.moveTo(i*10, 0);
+                context1.lineTo(i*10, solution1.clientHeight);
+                context1.stroke();
+            }
+
+            /**
+             * 문제 2번
+             */
+            for (i = 1; i < solution2.clientWidth / 10; ++i) {
+                context2.strokeStyle = "#0000ff";
+                context2.lineWidth = "2";
+                context2.moveTo(i*10, 0);
+                context2.lineTo(i*10, solution1.clientHeight);
+                context2.stroke();
+            }
+            for (i = 1; i < solution2.clientHeight / 10; ++i) {
+                context2.lineWidth = "2";
+                context2.moveTo(0, i*10);
+                context2.lineTo(solution1.clientWidth, i*10);
+                context2.stroke();
+            }
+
+            /**
+             * 문제 3번
+             */
+            for (i = 1; i < solution3.clientHeight / 10; ++i) {
+                context3.strokeStyle = "#ff0000";
+                context3.lineWidth = "2";
+                context3.moveTo(0, i*10);
+                context3.lineTo(i*10, i*10);
+                context3.stroke();
+            }
+            context3.beginPath();
+            for (i = 1; i < solution3.clientWidth / 10; ++i) {
+                context3.strokeStyle = "#0000ff";
+                context3.lineWidth = "2";
+                context3.moveTo(i*10, 0);
+                context3.lineTo(i*10, i*10);
+                context3.stroke();
+            }
+
+            /**
+             * 문제 4번
+             */
+            var solution4X = solution4.clientWidth / 2;
+            var solution4Y = solution4.clientHeight / 2;
+            var circleWidth = 10;
+            var circleWeight = 10;
+             for (i = 1; i <= solution4.clientHeight / 20; ++i) {
+                context4.beginPath();
+                context4.strokeStyle = "#000000";
+                context4.lineWidth = circleWeight;
+                context4.arc(solution4X, solution4Y, circleWidth, 0, 2 * Math.PI);
+                context4.stroke();
+                circleWidth += 10;
+                if (circleWeight > 1) 
+                    circleWeight -= 1;
+            }
+
+            /**
+             * 문제 5번
+             */
+            var solution5X = solution5.clientWidth / 2 - 50;
+            var solution5Y = solution5.clientHeight / 2;
+            var solution5DownX = 0;
+            var solution5DownY = 0;
+            var solution5ObserverX = 0;
+            var solution5ObserverY = 0;
+            var solution5MouseState = 0;
+            const clear = () => context5.clearRect(0, 0, solution5.clientWidth, solution5.clientHeight);
+            const posFormat = (state) => {
+                clear();
+                context5.beginPath();
+                if (!state) { 
+                    context5.fillStyle = "#00ff00"
+                } else {
+                    context5.fillStyle = "#ff0000"
+                }
+                context5.fillRect(
+                        solution5ObserverX-7,
+                        solution5ObserverY-7,
+                        15,
+                        15,);
+                if (!state) {
+                    context5.beginPath();
+                    context5.fillStyle = "#000000";
+                    context5.fillText(
+                        solution5ObserverX + ", " + solution5ObserverY + " " + ((state == 0) ? "up": "down"),
+                        solution5X,
+                        solution5Y
+                    );
+                } else {
+                    context5.beginPath();
+                    context5.strokeStyle = "#0000ff";
+                    context5.lineWidth = 3;
+                    context5.strokeRect(solution5DownX, solution5DownY, solution5ObserverX-solution5DownX, solution5ObserverY-solution5DownY);
+                    context5.beginPath();
+                    context5.fillStyle = "#000000";
+                    context5.fillText(
+                        "(" + solution5DownX + ", " + solution5DownY + ")" + "~" + "(" + solution5ObserverX + ", " + solution5ObserverY + ")" + 
+                        " (" + ((state == 0) ? "up": "down") + ")",
+                        solution5X-75,
+                        solution5Y
+                    );
+                }
+            }
+            solution5.onmousemove = (event) => {
+                solution5ObserverX = event.offsetX;
+                solution5ObserverY = event.offsetY;
+                context5.font = "20px sans-serif";
+                posFormat(solution5MouseState);
+            }
+            solution5.onmousedown = (event) => {
+                solution5MouseState = 1;
+                solution5DownX = event.offsetX;
+                solution5DownY = event.offsetY;
+                posFormat(solution5MouseState);
+            }
+            solution5.onmouseup = (event) => {
+                solution5MouseState = 0;
+                posFormat(solution5MouseState);
+            }
+
+            /**
+             * 문제 6번
+             */
+            const BOX = {
+                x: 0,
+                y: 0,
+                width: 50,
+                height: 50,
+                border: 5
+            };
+            var moveX = 0;
+            var moveY = 0;
+            var toggle = 1;
+            var move = 1;
+            var id;
+            const clear6 = () => context6.clearRect(0, 0, solution6.clientWidth, solution6.clientHeight);
+            window.requestAnimationFrame = (animation) => setTimeout(animation, 1000/60);
+            window.cancelAnimationFrame = () => {
+                moveX = 0;
+                moveY = 0;
+                clearTimeout(id);
+            }
+            const createPath = () => {
+                BOX.x += moveX;
+                BOX.y += moveY;
+                context6.beginPath();
+                context6.rect(BOX.x, BOX.y, BOX.width, BOX.height);
+                context6.fillStyle = "coral";
+                context6.fill();
+                context6.lineWidth = BOX.border;
+                context6.strokeStyle = "black";
+                context6.stroke();
+            }
+            createPath();
+            const animation = () => {
+                clear6();
+                createPath();
+                switch (move) {
+                    case 1:
+                        moveX += 0.14;
+                        moveY = 0;
+                        break;
+                    case 2:
+                        moveX = 0;
+                        moveY += 0.14;
+                        break;
+                    case 3:
+                        moveX -= 0.14;
+                        moveY = 0;
+                        break;  
+                    case 4:
+                        moveX = 0;
+                        moveY -= 0.14;
+                        break;
+                }
+                if (solution6.clientWidth <= BOX.x+BOX.width+BOX.border+moveX) {
+                    move = 2;
+                }
+                if (
+                    solution6.clientWidth <= BOX.x+BOX.width+BOX.border+moveX &&
+                    solution6.clientHeight <= BOX.y+BOX.height+BOX.border+moveY
+                ) {
+                    move = 3;
+                }
+                if (0+BOX.border-moveX >= BOX.x) {
+                    move = 4;
+                }
+                if (
+                    0+BOX.border-moveX >= BOX.x && 0+BOX.border-moveY >= BOX.y
+                ) {
+                    move = 1;
+                }
+                id = requestAnimationFrame(animation);
+            }
+            solution6.addEventListener('click', () => {
+                (toggle) ? animation() : cancelAnimationFrame();
+                toggle = !toggle;
+            });
+
+            /**
+             * 문제 7번
+             */
+            var angle = 0;
+            const rotation = () => {
+                context7.clearRect(0, 0, solution7.clientWidth, solution7.clientHeight);
+
+                let centerX = solution7.clientWidth / 2;
+                let centerY = solution7.clientHeight / 2;
+                let circleX = centerX + 100 * Math.cos(angle);
+                let circleY = centerY + 100 * Math.sin(angle);
+
+                context7.beginPath();
+                context7.arc(circleX, circleY, 35, 0, 2*Math.PI);
+                
+                context7.fillStyle = "green";
+                context7.fill();
+                context7.lineWidth = 5;
+                context7.strokeStyle = "black";
+                context7.stroke();
+
+                context7.beginPath();
+                context7.lineWidth = 4;
+                context7.strokeStyle = "blue";
+                context7.moveTo(0, 0);
+                context7.lineTo(circleX, circleY);
+                context7.moveTo(solution7.clientWidth, 0);
+                context7.lineTo(circleX, circleY);
+                context7.moveTo(solution7.clientWidth, solution7.clientHeight);
+                context7.lineTo(circleX, circleY);
+                context7.moveTo(0, solution7.clientHeight);
+                context7.lineTo(circleX, circleY);
+                context7.stroke();
+
+                context7.beginPath();
+                context7.lineWidth = 4;
+                context7.strokeStyle = "red";
+                context7.moveTo(centerX, centerY);
+                context7.lineTo(circleX, circleY);
+                context7.stroke();
+                
+                angle += 0.1;
+            }
+            setInterval(rotation, 1000/60.052);
+        </script>
+    </body>
+</html>
